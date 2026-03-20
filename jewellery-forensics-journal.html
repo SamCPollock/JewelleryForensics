@@ -531,12 +531,79 @@ section { margin-bottom: 2.8rem; }
   body { background: #fff; }
   .page { box-shadow: none; }
 }
+
+/* ── GLOSSARY ── */
+.gloss-dl { columns: 2; column-gap: 2rem; margin: 0.8rem 0; }
+.gloss-entry { break-inside: avoid; padding: 0.4rem 0; border-bottom: 1px solid rgba(0,0,0,0.07); }
+.gloss-entry dt {
+  font-family: var(--typewriter); font-size: 0.68rem;
+  color: var(--tw-ink); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.gloss-entry dd {
+  font-family: var(--body); font-size: 0.85rem;
+  color: var(--tw-ink-dim); line-height: 1.45; margin-left: 0; margin-top: 0.1rem;
+}
+@media (max-width: 600px) { .gloss-dl { columns: 1; } }
+
+/* ── METHOD CARDS ── */
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-top: 0.8rem; }
+@media (max-width: 600px) { .method-grid { grid-template-columns: 1fr; } }
+.method-card {
+  background: rgba(255,255,255,0.2); border: 1px solid var(--tw-border); padding: 0.75rem 0.85rem;
+}
+.method-name {
+  font-family: var(--typewriter); font-size: 0.68rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--tw-ink); margin-bottom: 0.35rem;
+  padding-bottom: 0.3rem; border-bottom: 1px solid var(--tw-border);
+}
+.method-desc {
+  font-family: var(--body); font-style: italic; font-size: 0.8rem;
+  color: var(--tw-ink-dim); margin-bottom: 0.4rem; line-height: 1.4;
+}
+.method-signs { list-style: none; margin: 0; padding: 0; }
+.method-signs li {
+  font-family: var(--typewriter); font-size: 0.61rem; color: var(--tw-ink-dim);
+  padding: 0.15rem 0 0.15rem 1rem; position: relative; line-height: 1.5;
+}
+.method-signs li::before { content: '→'; position: absolute; left: 0; color: var(--ink-red); }
+.method-flag {
+  font-family: var(--hand); font-size: 0.78rem; color: var(--ink-red);
+  margin-top: 0.5rem; font-style: italic;
+}
+
+/* ── ERA TIMELINE ── */
+.era-row {
+  display: grid; grid-template-columns: 130px 1fr; gap: 0 1.2rem;
+  padding: 0.65rem 0; border-top: 1px dashed var(--tw-border); align-items: start;
+}
+@media (max-width: 600px) { .era-row { grid-template-columns: 1fr; } }
+.era-period-name {
+  font-family: var(--typewriter); font-size: 0.64rem; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--tw-ink); line-height: 1.3;
+}
+.era-dates { font-family: var(--typewriter); font-size: 0.58rem; color: var(--ink-red); margin-top: 0.1rem; }
+.era-body { display: flex; flex-direction: column; gap: 0.25rem; }
+.era-methods {
+  font-family: var(--typewriter); font-size: 0.6rem; color: var(--tw-ink);
+  line-height: 1.5; letter-spacing: 0.02em;
+}
+.era-clue {
+  font-family: var(--body); font-style: italic; font-size: 0.8rem;
+  color: var(--tw-ink-dim); line-height: 1.5;
+}
+.era-key {
+  font-family: var(--typewriter); font-size: 0.58rem; color: var(--ink-red);
+  line-height: 1.55;
+}
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="nav-brand">✦ Field Journal</div>
+  <a href="#terms">Terms</a>
+  <a href="#methods">Methods</a>
+  <a href="#dating">Dating</a>
   <a href="#framework">Framework</a>
   <a href="#metals">Metals</a>
   <a href="#fineness">Fineness</a>
@@ -559,6 +626,9 @@ section { margin-bottom: 2.8rem; }
 <nav class="sidebar">
   <div class="sidebar-brand">✦ Field<br>Journal</div>
   <div class="sidebar-links">
+    <a href="#terms">Terms</a>
+    <a href="#methods">Methods</a>
+    <a href="#dating">Dating</a>
     <a href="#framework">Framework</a>
     <a href="#metals">Metals</a>
     <a href="#fineness">Fineness</a>
@@ -603,6 +673,304 @@ section { margin-bottom: 2.8rem; }
   <p class="cover-desc">Identifying how a piece was made by reading its edges, surfaces, joints, and hidden corners.</p>
   <div class="cover-teachers">Mike Magee &nbsp;·&nbsp; David Etheridge</div>
 </header>
+
+<!-- ═══════════════ TERMS GUIDE ═══════════════ -->
+<section id="terms">
+  <div class="journal-label">Reference</div>
+  <h2 class="journal">Terms Guide</h2>
+  <p class="journal-text">Vocabulary that keeps coming up. Quick reference for reading a piece.</p>
+
+  <div class="tw-card">
+    <dl class="gloss-dl">
+      <div class="gloss-entry"><dt>Alloy</dt><dd>A mixture of two or more metals. Precious metals are almost always alloyed for hardness, colour, and workability — pure gold is too soft to wear.</dd></div>
+      <div class="gloss-entry"><dt>Annealing</dt><dd>Heat treatment that relieves work hardening, restoring malleability. A fabricator may anneal a piece dozens of times. Quench in water or allow to air-cool.</dd></div>
+      <div class="gloss-entry"><dt>Bearing</dt><dd>The ledge or seat inside a setting on which a gemstone rests. Must match the stone's girdle diameter precisely — too wide = wobble, too narrow = stone sits too high.</dd></div>
+      <div class="gloss-entry"><dt>Bezel</dt><dd>A continuous strip of metal encircling a gemstone. Can be full (360°) or partial. Set by burnishing or pressing metal over the stone's girdle.</dd></div>
+      <div class="gloss-entry"><dt>Bright cut</dt><dd>Engraving technique removing metal at a sharp angle to create faceted, light-catching walls — used extensively in channel and pavé settings.</dd></div>
+      <div class="gloss-entry"><dt>Burnishing</dt><dd>Polishing by compression, not abrasion. A hard tool pushed across the metal closes grain, increases reflectivity, and pushes bezels over stones.</dd></div>
+      <div class="gloss-entry"><dt>Casting porosity</dt><dd>Gas bubbles or shrinkage voids trapped during cooling. Appears as pitting under magnification — most visible near sprues and thick sections.</dd></div>
+      <div class="gloss-entry"><dt>Chasing</dt><dd>Shaping or decorating metal from the front with hammers and punches. Companion technique to repoussé, which works from the back.</dd></div>
+      <div class="gloss-entry"><dt>Die striking</dt><dd>Forming metal by pressing sheet between two hardened steel dies under high pressure. Produces very dense, work-hardened, crisply detailed pieces.</dd></div>
+      <div class="gloss-entry"><dt>Ductility</dt><dd>Ability to be drawn into wire without breaking. Gold is highly ductile — 1 g can be drawn into roughly 3 km of wire.</dd></div>
+      <div class="gloss-entry"><dt>Electroforming</dt><dd>Depositing metal electrolytically onto a mandrel (which is then removed), producing hollow, seamless, very lightweight pieces with thin walls.</dd></div>
+      <div class="gloss-entry"><dt>Fabrication</dt><dd>Building jewellery from sheet, wire, and tube by cutting, forming, and soldering — as opposed to casting from molten metal.</dd></div>
+      <div class="gloss-entry"><dt>Fine metal</dt><dd>Unalloyed, pure metal — fine gold (999.9‰), fine silver (999‰). Too soft for most wearable jewellery without alloying.</dd></div>
+      <div class="gloss-entry"><dt>Fineness mark</dt><dd>A stamp indicating metal purity in parts per thousand — 750 = 18K gold, 925 = sterling silver, 950 = platinum. Required by law in many countries.</dd></div>
+      <div class="gloss-entry"><dt>Fire scale</dt><dd>A reddish-purple stain from copper oxides forming below the surface of copper-bearing alloys during heating. Common in rose gold and sterling silver.</dd></div>
+      <div class="gloss-entry"><dt>Flux</dt><dd>Chemical applied before soldering to prevent oxidation and encourage solder flow. Borax is traditional; commercial paste fluxes are more common today.</dd></div>
+      <div class="gloss-entry"><dt>Gallery</dt><dd>The underside or interior of a piece — the first place to examine, as it's harder to polish and more likely to show construction evidence.</dd></div>
+      <div class="gloss-entry"><dt>Grain (crystal)</dt><dd>Microscopic crystalline structures in metal alloys. Fine-grained = stronger. Coarsened by overheating; refined by alloying and mechanical working.</dd></div>
+      <div class="gloss-entry"><dt>Hallmark</dt><dd>An officially assayed and guaranteed purity stamp applied by an assay office. The UK has required hallmarking since 1300. Systems vary by country.</dd></div>
+      <div class="gloss-entry"><dt>Hardness (HV)</dt><dd>Resistance to permanent deformation, measured on the Vickers scale. Pure gold ~25 HV; 14K yellow ~130–180 HV; platinum alloys ~40–120 HV depending on alloy.</dd></div>
+      <div class="gloss-entry"><dt>Heft</dt><dd>Perceived weight relative to size — a key field-identification clue. Gold (19.3 g/cm³) and platinum (21.5 g/cm³) are noticeably denser than silver (10.5) or base metals.</dd></div>
+      <div class="gloss-entry"><dt>Karat (K)</dt><dd>US measure of gold purity. 24K = pure (999.9‰). 18K = 75% gold (750‰). 14K = 58.3% (585‰). 10K = 41.7% (417‰) — legal minimum in the USA.</dd></div>
+      <div class="gloss-entry"><dt>Lost-wax casting</dt><dd>A wax model is embedded in investment, burned out in a kiln, and replaced with molten metal forced in by centrifuge or vacuum. The dominant production method.</dd></div>
+      <div class="gloss-entry"><dt>Malleability</dt><dd>Ability to be hammered flat without cracking. Gold is the most malleable element — 1 g can be beaten into a 1 m² sheet less than 0.1 µm thick.</dd></div>
+      <div class="gloss-entry"><dt>Mokumé-gané</dt><dd>Japanese technique bonding dissimilar metal layers under heat and pressure, then carving or rolling to reveal a wood-grain or contour pattern. Originated 17th-century Japan.</dd></div>
+      <div class="gloss-entry"><dt>Pavé</dt><dd>Setting style in which gemstones are closely packed and secured by tiny raised metal grains, with minimal metal visible between stones. French for "paved."</dd></div>
+      <div class="gloss-entry"><dt>Prong (claw)</dt><dd>A thin metal projection gripping a gemstone. Should extend 1/3 to 1/2 up the crown. Worn prongs are the primary cause of stone loss — key inspection point.</dd></div>
+      <div class="gloss-entry"><dt>Repoussé</dt><dd>Decorating metal from the back with hammer and punches to create raised relief on the front. Combined with chasing (front work) for fine detail.</dd></div>
+      <div class="gloss-entry"><dt>Rhodium plating</dt><dd>Electroplating with rhodium — a bright, hard platinum-group metal. Applied over white gold and silver for tarnish resistance and whiteness. Wears off with use.</dd></div>
+      <div class="gloss-entry"><dt>Solder</dt><dd>A lower-melting alloy used to join metal components. In gold work, solder karatage must match the piece. Classified as hard, medium, or easy by flow temperature.</dd></div>
+      <div class="gloss-entry"><dt>Sprue</dt><dd>The channel through which metal flows into a mould during casting. Leaves a stub or filled depression on the finished piece — a reliable indicator of casting.</dd></div>
+      <div class="gloss-entry"><dt>Work hardening</dt><dd>Increased hardness and brittleness caused by mechanical deformation compressing the crystal grain structure. Every bend, draw, or strike hardens metal. Reversed by annealing.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ MANUFACTURING METHODS ═══════════════ -->
+<section id="methods">
+  <div class="journal-label">Reference</div>
+  <h2 class="journal">Manufacturing Methods &amp; Telltale Signs</h2>
+  <p class="journal-text">How to identify the manufacturing process from what the piece shows you. Most pieces combine methods.</p>
+
+  <div class="tw-card">
+    <h4>Method Identification Guide</h4>
+    <div class="method-grid">
+
+      <div class="method-card">
+        <div class="method-name">Lost-Wax Casting</div>
+        <div class="method-desc">Wax model → investment mould → metal injected by centrifuge or vacuum. The most common production method for complex forms.</div>
+        <ul class="method-signs">
+          <li>Porosity (pitting) visible at 10× — especially near thick sections</li>
+          <li>Sprue mark or filled depression on underside</li>
+          <li>Soft, slightly blurred fine detail compared to die-struck</li>
+          <li>Uniform granular texture in unpolished recesses</li>
+          <li>Complex undercuts and full 3D forms possible</li>
+          <li>Parting line if a two-part mould was used</li>
+        </ul>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">CAD/CAM → Cast</div>
+        <div class="method-desc">3D-printed wax or resin model replaces hand-carved wax, then cast by lost-wax. Increasingly the default for commercial production.</div>
+        <ul class="method-signs">
+          <li>Step lines / growth rings on curved surfaces (print layer artefacts)</li>
+          <li>Geometrically perfect, often uncannily symmetrical forms</li>
+          <li>Very fine, perfectly consistent repeat detail (prong spacing, pattern)</li>
+          <li>Still shows casting porosity — it's still cast</li>
+          <li>No tool marks, no organic variation whatsoever</li>
+          <li>Sprue mark still present</li>
+        </ul>
+        <div class="method-flag">High-end vs mass-market: both use CAD — finishing quality is where they diverge</div>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">Hand Fabrication</div>
+        <div class="method-desc">Metal sawn, formed, and joined from sheet, wire, and tube by a bench jeweller. The traditional craft method; often combined with casting.</div>
+        <ul class="method-signs">
+          <li>File marks on inner curves, edges, and back surfaces</li>
+          <li>Solder seams visible at 10× — possible colour or texture mismatch</li>
+          <li>Slight asymmetry — human variation in repeated elements</li>
+          <li>Hammer or planishing marks in hand-worked areas</li>
+          <li>Fire scale on copper-alloy metals near joins</li>
+          <li>No porosity in the fabricated elements (no casting)</li>
+        </ul>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">Die Striking</div>
+        <div class="method-desc">Sheet metal pressed between hardened steel dies under high tonnage. Used for medals, coins, and high-volume repeat elements.</div>
+        <ul class="method-signs">
+          <li>Extremely crisp, sharp edges — far crisper than cast</li>
+          <li>Work-hardened density — surprisingly heavy for apparent volume</li>
+          <li>Zero porosity</li>
+          <li>Thin, uniform wall thickness throughout</li>
+          <li>Often hollow or open back</li>
+          <li>Very faint parting seam where dies meet</li>
+          <li>Surfaces can be mirror-smooth without extra polishing</li>
+        </ul>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">Machining (CNC / Lathe)</div>
+        <div class="method-desc">Metal cut away by rotating tools to achieve precise geometry. Common for shanks, tube settings, and findings.</div>
+        <ul class="method-signs">
+          <li>Perfectly concentric circles (lathe work)</li>
+          <li>Parallel spiral tool marks inside bores or channels</li>
+          <li>Extremely precise, repeatable dimensions</li>
+          <li>Sharp internal corners that casting cannot achieve</li>
+          <li>No porosity, no solder seams, no parting lines</li>
+          <li>Dense, solid feel throughout</li>
+        </ul>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">Electroforming</div>
+        <div class="method-desc">Metal deposited electrolytically onto a conductive mandrel, which is then dissolved or removed. Produces hollow, seamless pieces.</div>
+        <ul class="method-signs">
+          <li>Extremely lightweight for apparent size — the defining tell</li>
+          <li>Hollow interior — tap gently for a hollow sound</li>
+          <li>No solder seams anywhere on the body</li>
+          <li>Very thin walls — vulnerable to denting under pressure</li>
+          <li>Smooth, slightly grainy interior surface</li>
+          <li>No sprue marks, no parting lines</li>
+        </ul>
+        <div class="method-flag">Easy to confuse with casting — weight and wall thickness are the giveaway</div>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">Mokumé-gané</div>
+        <div class="method-desc">Dissimilar metal layers fused under heat and pressure, carved or rolled to reveal a wood-grain or contour pattern within the metal.</div>
+        <ul class="method-signs">
+          <li>Wood-grain or wavy pattern is in the metal — not applied or printed</li>
+          <li>Pattern continues through cut edges (laminated layers visible in section)</li>
+          <li>Subtle colour variation shifts across the surface</li>
+          <li>Always unique — no two pieces have identical patterning</li>
+          <li>May show hammer or rolling marks at the edges</li>
+        </ul>
+      </div>
+
+      <div class="method-card">
+        <div class="method-name">Repoussé &amp; Chasing</div>
+        <div class="method-desc">Relief decoration hammered from the back (repoussé) and refined from the front (chasing). One of the oldest metalworking techniques.</div>
+        <ul class="method-signs">
+          <li>Raised relief on front, corresponding hollow on reverse</li>
+          <li>Punch and tool impressions visible in unfinished recesses</li>
+          <li>Organic, slightly irregular quality to relief forms</li>
+          <li>Thin metal — stretched and displaced from a single sheet</li>
+          <li>No porosity, no sprue marks on the worked element</li>
+          <li>Possible pitch residue traces on reverse (pitch bowl backing)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ DATING & QUALITY REFERENCE ═══════════════ -->
+<section id="dating">
+  <div class="journal-label">Reference</div>
+  <h2 class="journal">Quality, Rarity &amp; Dating</h2>
+  <p class="journal-text">How much work went in, how often you see it, and what it tells you about when a piece was made.</p>
+
+  <div class="tw-card">
+    <h4>Method Comparison — Quality, Work &amp; Market Frequency</h4>
+    <table class="tw-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Quality Ceiling</th>
+          <th>Work per Piece</th>
+          <th>Market Today</th>
+          <th>In Use Since</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="hl">Hand Fabrication</td><td>Highest</td><td>Extremely high</td><td>Rare — bespoke &amp; high-end only</td><td>Ancient (~3000 BCE+)</td></tr>
+        <tr><td class="hl">Repoussé &amp; Chasing</td><td>Highest</td><td>Extremely high</td><td>Very rare</td><td>Ancient; peak Victorian &amp; Art Nouveau</td></tr>
+        <tr><td class="hl">Mokumé-gané</td><td>Exceptional</td><td>Extremely high</td><td>Very rare — art jewellery only</td><td>Edo Japan ~1700; Western from ~1973</td></tr>
+        <tr><td class="hl">Filigree</td><td>Very high</td><td>Very high</td><td>Uncommon; common in antiques</td><td>Ancient; peak Georgian–Victorian</td></tr>
+        <tr><td class="hl">Die Striking</td><td>High; very consistent</td><td>Low (after dies made)</td><td>Common — findings, medals, repeat elements</td><td>Industrial scale ~1840s; still used</td></tr>
+        <tr><td class="hl">Lost-Wax Casting</td><td>High — finish-dependent</td><td>Moderate</td><td>Dominant — most commercial pieces</td><td>Ancient; rubber-mold era 1940s+</td></tr>
+        <tr><td class="hl">CAD/CAM → Cast</td><td>High — finish-dependent</td><td>Low (production run)</td><td>Dominant — mass &amp; mid-market</td><td>~1997–present</td></tr>
+        <tr><td class="hl">Machining (CNC)</td><td>Very high; precise</td><td>High</td><td>Uncommon in finished pieces</td><td>Manual: 19th c.; CNC in jewellery: 1980s+</td></tr>
+        <tr><td class="hl">Electroforming</td><td>Medium — structurally fragile</td><td>Moderate</td><td>Uncommon; fashion &amp; statement pieces</td><td>1840s; peak 1970s–80s</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tw-card" style="margin-top:1rem;">
+    <h4>Era Dating Guide — Manufacturing Clues by Period</h4>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Georgian</div><div class="era-dates">1714–1837</div></div>
+      <div class="era-body">
+        <div class="era-methods">Hand fabrication · Repoussé · Filigree · Granulation · Engraving · Cannetille</div>
+        <div class="era-clue">Foil-backed closed settings (no light through stones). Pinchbeck (copper-zinc gold substitute). Cut-steel. Paste stones. Mourning jewellery with woven hair.</div>
+        <div class="era-key">→ C-catch on brooches (no rollover safety). Closed-back bezels. Very fine hand engraving. No machine-made elements whatsoever.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Early Victorian</div><div class="era-dates">1837–1861</div></div>
+      <div class="era-body">
+        <div class="era-methods">Hand fabrication · Repoussé · Enamel · Granulation revival (Castellani)</div>
+        <div class="era-clue">Naturalistic motifs: flowers, leaves, serpents. Sentimental: hair lockets, mourning pieces. Archaeological revival begins. Yellow gold dominates.</div>
+        <div class="era-key">→ C-catch or early trombone catch. All yellow gold. Serpent and floral motifs. Hand-engraved surfaces throughout.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Grand Victorian</div><div class="era-dates">1861–1885</div></div>
+      <div class="era-body">
+        <div class="era-methods">Repoussé · Early die striking · Jet &amp; bog oak carving · Scottish pebble work</div>
+        <div class="era-clue">Large scale, bold forms. Mourning jewellery peaked after Prince Albert's death (1861). Archaeological (Roman, Egyptian, Etruscan) revival. Scottish hardstones.</div>
+        <div class="era-key">→ Jet, whitby jet, bog oak, black glass (onyx substitute). Heavier, larger pieces. Machine-cut elements beginning to appear alongside handwork.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Late Victorian</div><div class="era-dates">1885–1901</div></div>
+      <div class="era-body">
+        <div class="era-methods">Die striking grows · Early casting machines · Electroforming · Japanese influence</div>
+        <div class="era-clue">Lighter, more delicate forms. Japanese motifs (fans, insects, cherry blossom). Rose-cut diamonds. Silver with demantoid garnet, turquoise, seed pearl. Rolled gold (gold-filled) becomes common.</div>
+        <div class="era-key">→ T-bar and toggle clasps. Early box catches. Rolled gold marking. Some machine uniformity — look for slight inconsistency that suggests it isn't fully hand-made.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Art Nouveau</div><div class="era-dates">1890–1910</div></div>
+      <div class="era-body">
+        <div class="era-methods">Hand fabrication · Plique-à-jour enamel · Repoussé · Horn &amp; ivory carving</div>
+        <div class="era-clue">Organic flowing lines. Female figures, dragonflies, orchids, peacocks. Unusual stones: opals, moonstones, baroque pearls. Enamel used as primary colour medium, not just accent.</div>
+        <div class="era-key">→ Plique-à-jour enamel is nearly diagnostic. Asymmetric organic forms. Fine hand-fabricated construction throughout.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Edwardian</div><div class="era-dates">1901–1915</div></div>
+      <div class="era-body">
+        <div class="era-methods">Platinum for settings · Millegrain · Filigree · Knife-edge shanks · Open basket settings</div>
+        <div class="era-clue">White-on-white look: platinum + diamonds + white pearls. Lacy open metalwork possible only in platinum (too fragile in gold). Garland style, bow and ribbon motifs.</div>
+        <div class="era-key">→ Platinum hallmarks (Pt 850 or 950). Millegrain bead edges. Safety catches on brooches (introduced ~1901). Very open, almost lace-like setting structures.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Art Deco</div><div class="era-dates">1920–1940</div></div>
+      <div class="era-body">
+        <div class="era-methods">Precision machining · Calibré-cut stones · Platinum dominant · Pavé · Baguette cuts</div>
+        <div class="era-clue">Geometric precision. Black &amp; white contrasts (onyx + diamond). Step cuts (emerald, baguette, French cut). Bold colour combinations ("Tutti Frutti": sapphire + emerald + ruby carved by Cartier).</div>
+        <div class="era-key">→ Calibré-cut coloured stones in geometric patterns is nearly diagnostic. Platinum + geometric = almost certainly Deco or Edwardian. Millegrain + platinum + step cuts = strong Deco.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Retro / Mid-Century</div><div class="era-dates">1940–1965</div></div>
+      <div class="era-body">
+        <div class="era-methods">Yellow gold dominant · Mass casting begins (rubber mold vulcanization 1940s) · Synthetic stones</div>
+        <div class="era-clue">Bold dimensional forms. Heavy yellow or rose gold. Hardware-inspired: padlocks, chains, scrolls. Platinum restricted in USA 1942–1945 (strategic war material). Large synthetic sapphires and rubies.</div>
+        <div class="era-key">→ Yellow/rose gold in bold sculptural forms = possibly wartime or post-war. Chunky link bracelets. Box clasps with safety tongue. Early casting sprue marks visible on underside.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">Bold Gold Era</div><div class="era-dates">1970s–1980s</div></div>
+      <div class="era-body">
+        <div class="era-methods">Electroforming revival · Granulation revival · Mokumé introduced to West · Italian design</div>
+        <div class="era-clue">Large hollow gold pieces (electroformed). Italian design dominance (Bulgari, Pomellato). Textured and matte finishes (florentine, bark). Mixed metal work. Studio jewellery movement.</div>
+        <div class="era-key">→ Hollow lightweight gold = likely electroformed 1970s–80s. Tubular link designs. Matte florentine or bark textures. Early Western mokumé-gané in art jewellery contexts.</div>
+      </div>
+    </div>
+
+    <div class="era-row">
+      <div><div class="era-period-name">CAD / Contemporary</div><div class="era-dates">1997–present</div></div>
+      <div class="era-body">
+        <div class="era-methods">CAD/CAM → casting · Laser welding · Laser engraving · CNC machining · Tension settings</div>
+        <div class="era-clue">Geometrically perfect forms. Complex pavé arrangements previously impossible by hand. Tension settings. Branded pieces with laser-marked logos. Minimal bar and bezel styles.</div>
+        <div class="era-key">→ Perfect bilateral symmetry in all details = likely CAD. Laser-stamped hallmarks (crisp, uniform depth). Step-line artefacts on curved surfaces = 3D print origin. Complex pavé with perfectly equal spacing throughout.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-rule">
 
 <!-- ═══════════════ 1. THE FRAMEWORK ═══════════════ -->
 <section id="framework">
