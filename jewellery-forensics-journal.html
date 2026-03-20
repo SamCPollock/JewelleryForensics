@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jewellery Forensics — Field Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Special+Elite&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Journal palette */
+  --parchment: #f0e6cc;
+  --parchment-deep: #e8dbb8;
+  --parchment-dark: #d4c49a;
+  --ink: #2c1810;
+  --ink-light: #5a3e28;
+  --ink-faded: #8a7058;
+  --ink-red: #8b2500;
+  --ink-blue: #1a3a5c;
+  --pencil: #6b6b6b;
+  --highlight: rgba(255, 220, 100, 0.35);
+
+  /* Typewriter palette */
+  --tw-paper: #eae8e0;
+  --tw-ink: #1a1a1a;
+  --tw-ink-dim: #4a4a4a;
+  --tw-border: #bbb8a8;
+  --tw-shadow: rgba(0,0,0,0.12);
+  --tw-tape: rgba(255, 245, 200, 0.55);
+
+  /* Fonts */
+  --hand: 'Caveat', cursive;
+  --display: 'Playfair Display', serif;
+  --body: 'EB Garamond', serif;
+  --typewriter: 'Special Elite', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: #d4c49a;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(160,130,90,0.08) 28px, rgba(160,130,90,0.08) 29px),
+    radial-gradient(ellipse at 30% 20%, rgba(210,190,140,0.5) 0%, transparent 70%);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Page container — the journal page */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--parchment);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(to right, rgba(0,0,0,0.04) 0%, transparent 2%, transparent 98%, rgba(0,0,0,0.03) 100%);
+  box-shadow: 0 0 40px rgba(80,50,20,0.15), 2px 2px 8px rgba(0,0,0,0.08);
+  padding: 3rem 3.5rem 4rem;
+  min-height: 100vh;
+  position: relative;
+}
+.page::before {
+  content: '';
+  position: absolute;
+  left: 3rem;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(180,50,50,0.12);
+}
+
+@media (max-width: 700px) {
+  .page { padding: 2rem 1.5rem 3rem; }
+  .page::before { left: 1rem; }
+}
+
+/* ── NAV (bookmark tabs) ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(212,196,154,0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid var(--parchment-dark);
+  padding: 0 1rem;
+  display: flex; align-items: center; height: 46px;
+  overflow-x: auto; gap: 0.2rem;
+}
+.nav-brand {
+  font-family: var(--hand); font-size: 1.2rem; font-weight: 700;
+  color: var(--ink-red); white-space: nowrap; flex-shrink: 0;
+  margin-right: 1rem;
+}
+.nav a {
+  font-family: var(--typewriter); font-size: 0.65rem;
+  color: var(--ink-faded); text-decoration: none;
+  padding: 0.25rem 0.5rem; white-space: nowrap;
+  border: 1px solid transparent; border-radius: 2px;
+  transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.nav a:hover {
+  color: var(--ink); border-color: var(--parchment-dark);
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── JOURNAL ELEMENTS (class notes) ── */
+h2.journal {
+  font-family: var(--hand);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+  position: relative;
+}
+h2.journal::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: var(--ink-red);
+  margin-top: 0.3rem;
+  opacity: 0.5;
+}
+
+h3.journal {
+  font-family: var(--hand);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 1.3rem 0 0.4rem;
+}
+
+.journal-label {
+  font-family: var(--hand);
+  font-size: 0.85rem;
+  color: var(--ink-red);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.2rem;
+}
+
+.journal-text {
+  font-family: var(--hand);
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--ink-light);
+}
+.journal-text strong { color: var(--ink); }
+
+/* Handwritten list */
+.journal-list {
+  font-family: var(--hand);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--ink-light);
+  padding-left: 1.5rem;
+  list-style: none;
+}
+.journal-list li { margin-bottom: 0.25rem; position: relative; }
+.journal-list li::before {
+  content: '—';
+  position: absolute;
+  left: -1.3rem;
+  color: var(--ink-faded);
+}
+
+/* Ink underline for emphasis */
+.ink-em {
+  background: var(--highlight);
+  padding: 0 0.15rem;
+}
+
+/* Margin note */
+.margin-note {
+  font-family: var(--hand);
+  font-size: 0.9rem;
+  color: var(--ink-red);
+  font-style: italic;
+  border-left: 2px solid var(--ink-red);
+  padding-left: 0.8rem;
+  margin: 0.8rem 0;
+  opacity: 0.85;
+}
+
+/* Journal blockquote — like written in the margin */
+blockquote.journal {
+  font-family: var(--hand);
+  font-size: 1.2rem;
+  color: var(--ink-red);
+  font-style: italic;
+  margin: 1rem 0 1rem 0.5rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(139,37,0,0.2);
+}
+
+/* ── TYPEWRITER ELEMENTS (AI additions) ── */
+.tw-card {
+  background: var(--tw-paper);
+  border: 1px solid var(--tw-border);
+  padding: 1.2rem 1.4rem;
+  margin: 1.2rem 0;
+  position: relative;
+  box-shadow: 2px 3px 8px var(--tw-shadow), 0 0 0 1px rgba(0,0,0,0.03);
+  transform: rotate(-0.15deg);
+}
+.tw-card::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: 20%; right: 20%; height: 10px;
+  background: var(--tw-tape);
+  border-bottom: 1px solid rgba(200,190,140,0.5);
+}
+
+.tw-card h4 {
+  font-family: var(--typewriter);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tw-ink);
+  margin-bottom: 0.5rem;
+  border-bottom: 1px dashed var(--tw-border);
+  padding-bottom: 0.3rem;
+}
+
+.tw-text {
+  font-family: var(--typewriter);
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: var(--tw-ink-dim);
+}
+.tw-text strong { color: var(--tw-ink); }
+
+.tw-list {
+  font-family: var(--typewriter);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--tw-ink-dim);
+  padding-left: 1.3rem;
+  list-style: disc;
+}
+.tw-list li { margin-bottom: 0.2rem; }
+.tw-list li::marker { color: var(--tw-ink-dim); }
+
+.tw-links {
+  margin-top: 0.7rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--tw-border);
+  font-family: var(--typewriter);
+  font-size: 0.72rem;
+}
+.tw-links a {
+  color: var(--ink-blue);
+  text-decoration: none;
+  margin-right: 0.8rem;
+  display: inline-block;
+  margin-bottom: 0.2rem;
+}
+.tw-links a:hover { text-decoration: underline; }
+.tw-links a::before { content: '>> '; opacity: 0.4; }
+
+/* ── TOOLTIP ── */
+.tt {
+  border-bottom: 1px dotted var(--ink-faded);
+  cursor: help; position: relative;
+}
+.tt .ttp {
+  visibility: hidden; opacity: 0;
+  position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  background: #2c1810; color: #e8dbb8;
+  border-radius: 4px; padding: 0.55rem 0.8rem;
+  font-family: var(--typewriter); font-size: 0.72rem;
+  font-style: normal; font-weight: normal;
+  line-height: 1.55; width: max-content; max-width: 300px;
+  z-index: 200; pointer-events: none;
+  transition: opacity 0.2s; box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+.tt:hover .ttp { visibility: visible; opacity: 1; }
+
+/* ── TABLES ── */
+.journal-table {
+  width: 100%; border-collapse: collapse;
+  margin: 0.8rem 0; font-family: var(--hand); font-size: 1rem;
+}
+.journal-table th {
+  text-align: left; font-weight: 600; color: var(--ink);
+  padding: 0.4rem 0.7rem; border-bottom: 2px solid var(--ink-faded);
+  font-size: 0.95rem;
+}
+.journal-table td {
+  padding: 0.35rem 0.7rem; border-bottom: 1px solid var(--parchment-dark);
+  color: var(--ink-light);
+}
+.journal-table .hl { color: var(--ink-red); font-weight: 600; }
+
+.tw-table {
+  width: 100%; border-collapse: collapse;
+  margin: 0.6rem 0; font-family: var(--typewriter); font-size: 0.75rem;
+}
+.tw-table th {
+  text-align: left; font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--tw-ink);
+  padding: 0.35rem 0.6rem; border-bottom: 1px solid var(--tw-ink);
+}
+.tw-table td {
+  padding: 0.3rem 0.6rem; border-bottom: 1px dashed var(--tw-border);
+  color: var(--tw-ink-dim);
+}
+.tw-table .hl { color: var(--tw-ink); font-weight: bold; }
+
+/* ── TAGS (method badges) ── */
+.method-tag {
+  display: inline-block; font-family: var(--typewriter);
+  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.15rem 0.5rem; border: 1px solid; border-radius: 2px;
+  margin-left: 0.5rem; vertical-align: middle;
+}
+.mt-cast { border-color: #a08050; color: #a08050; }
+.mt-fab { border-color: #2a6848; color: #2a6848; }
+.mt-die { border-color: #5a3080; color: #5a3080; }
+.mt-cad { border-color: #286878; color: #286878; }
+.mt-machine { border-color: #5a6040; color: #5a6040; }
+.mt-electro { border-color: #804040; color: #804040; }
+
+/* ── SECTION DIVIDER ── */
+section { margin-bottom: 2.8rem; }
+.section-rule {
+  border: none; border-top: 1px solid var(--parchment-dark);
+  margin: 2.5rem 0;
+}
+.day-marker {
+  text-align: center; font-family: var(--hand);
+  font-size: 1.8rem; font-weight: 700; color: var(--ink-red);
+  padding: 1.5rem 0; margin: 1.5rem 0;
+  border-top: 2px solid rgba(139,37,0,0.15);
+  border-bottom: 2px solid rgba(139,37,0,0.15);
+}
+
+/* Case study box */
+.case-study {
+  background: rgba(255,248,230,0.5);
+  border: 1px dashed var(--parchment-dark);
+  padding: 1rem 1.3rem;
+  margin: 1rem 0;
+  border-radius: 2px;
+}
+.case-study-label {
+  font-family: var(--typewriter);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-faded);
+  margin-bottom: 0.3rem;
+}
+
+/* ── Q-GROUP (12 questions) ── */
+.q-group {
+  border: 1px solid var(--parchment-dark);
+  margin-bottom: 0.8rem;
+  background: rgba(255,255,255,0.15);
+}
+.q-header {
+  font-family: var(--hand); font-size: 1rem; font-weight: 700;
+  color: var(--ink-red); padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--parchment-dark);
+  background: rgba(255,248,230,0.4);
+}
+.q-item {
+  display: flex; gap: 0.6rem; align-items: baseline;
+  padding: 0.45rem 1rem; border-bottom: 1px dotted var(--parchment-dark);
+  font-family: var(--hand); font-size: 1.05rem; color: var(--ink-light);
+}
+.q-item:last-child { border-bottom: none; }
+.q-num { font-family: var(--typewriter); font-size: 0.7rem; color: var(--ink-faded); min-width: 1.4rem; flex-shrink: 0; }
+
+/* ── SCROLL TOP ── */
+.scroll-top {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--parchment-deep); border: 1px solid var(--parchment-dark);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink); text-decoration: none; font-size: 1rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+}
+.scroll-top.visible { opacity: 1; pointer-events: auto; }
+
+/* ── LEGEND ── */
+.legend-float {
+  position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 90;
+  background: var(--parchment); border: 1px solid var(--parchment-dark);
+  padding: 0.6rem 0.9rem; font-size: 0.72rem;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.08);
+  display: flex; flex-direction: column; gap: 0.35rem;
+  opacity: 0.8; transition: opacity 0.2s;
+}
+.legend-float:hover { opacity: 1; }
+.legend-float .li { display: flex; align-items: center; gap: 0.4rem; }
+.legend-float .sw { width: 28px; height: 10px; border: 1px solid; border-radius: 1px; flex-shrink: 0; }
+.sw-journal { background: var(--parchment); border-color: var(--ink-faded); }
+.sw-tw { background: var(--tw-paper); border-color: var(--tw-border); }
+
+@media print {
+  .nav, .scroll-top, .legend-float { display: none; }
+  body { background: #fff; }
+  .page { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">✦ Field Journal</div>
+  <a href="#framework">Framework</a>
+  <a href="#metals">Metals</a>
+  <a href="#fineness">Fineness</a>
+  <a href="#hallmarks">Hallmarks</a>
+  <a href="#platinum">Platinum</a>
+  <a href="#casting">Casting</a>
+  <a href="#cadcam">CAD/CAM</a>
+  <a href="#handfab">Hand Fab</a>
+  <a href="#diestrike">Die Strike</a>
+  <a href="#machining">Machining</a>
+  <a href="#electroforming">Electro</a>
+  <a href="#mokume">Mokume</a>
+  <a href="#joining">Joining</a>
+  <a href="#settings">Settings</a>
+  <a href="#enamel">Enamel</a>
+  <a href="#repair">Repair</a>
+  <a href="#compare">Compare</a>
+</nav>
+
+<div class="legend-float">
+  <div class="li"><div class="sw sw-journal"></div><span style="font-family:var(--hand);font-size:0.85rem;color:var(--ink-light);">class notes</span></div>
+  <div class="li"><div class="sw sw-tw"></div><span style="font-family:var(--typewriter);font-size:0.7rem;color:var(--tw-ink-dim);">added research</span></div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<header style="text-align:center;padding:2rem 0 2.5rem;">
+  <div style="font-family:var(--typewriter);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faded);margin-bottom:1rem;">GIA · March 18–19, 2026 · Days 1 & 2</div>
+  <h1 style="font-family:var(--display);font-size:clamp(2.2rem,5vw,3.2rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:0.6rem;">Jewellery <em style="color:var(--ink-red);">Forensics</em></h1>
+  <p style="font-family:var(--hand);font-size:1.3rem;color:var(--ink-light);max-width:500px;margin:0 auto 1.5rem;">Identifying how a piece was made by reading its edges, surfaces, joints, and hidden corners.</p>
+  <blockquote class="journal" style="max-width:420px;margin:0 auto;border-left:none;text-align:center;">"Every piece of jewellery tells a story, but I'm illiterate."</blockquote>
+  <p style="font-family:var(--hand);font-size:0.95rem;color:var(--ink-faded);margin-top:1.5rem;">Teachers: <strong>Mike Magee</strong> (mechanical engineer → GIA) · <strong>David Etheridge</strong></p>
+</header>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 1. THE FRAMEWORK ═══════════════ -->
+<section id="framework">
+  <div class="journal-label">Core Framework</div>
+  <h2 class="journal">The Twelve Qualifying Questions</h2>
+  <p class="journal-text">A systematic checklist for every piece. <span class="ink-em">"The front sells the piece, the back explains the piece."</span></p>
+
+  <div class="q-group">
+    <div class="q-header">Metal</div>
+    <div class="q-item"><span class="q-num">01</span>Is there a <span class="tt">fineness mark<span class="ttp">A stamp indicating metal purity — e.g. "750" for 18K gold (75% gold) or "925" for sterling. Required by law in many countries.</span></span>?</div>
+    <div class="q-item"><span class="q-num">02</span>What is the colour, and is the <span class="tt">heft<span class="ttp">Perceived weight relative to size. Gold: 19.3 g/cm³. Platinum: 21.5 g/cm³. Silver: 10.5 g/cm³. A genuine piece should "feel right" for its claimed metal.</span></span> consistent with the fineness?</div>
+    <div class="q-item"><span class="q-num">03</span>What is the condition of the finish on internal/external surfaces?</div>
+  </div>
+  <div class="q-group">
+    <div class="q-header">Manufacturing</div>
+    <div class="q-item"><span class="q-num">04</span>Are <span class="tt">solder joints<span class="ttp">Points where components are joined with filler metal. Good joints are invisible. Poor ones show pitting, colour mismatch, or excess metal.</span></span> clean and consistent with other surfaces?</div>
+    <div class="q-item"><span class="q-num">05</span>Are indications of previous repairs or retrofits visible?</div>
+    <div class="q-item"><span class="q-num">06</span>What manufacturing method was used?</div>
+  </div>
+  <div class="q-group">
+    <div class="q-header">Gemstones</div>
+    <div class="q-item"><span class="q-num">07</span>Are gems set securely?</div>
+    <div class="q-item"><span class="q-num">08</span>Are settings the correct size for the gems?</div>
+    <div class="q-item"><span class="q-num">09</span>What is the condition of the <span class="tt">prongs<span class="ttp">Metal claws holding a gemstone. Should extend 30–40% up the crown. Worn prongs are the #1 cause of stone loss.</span></span> and <span class="tt">bearings<span class="ttp">The ledge/seat where a gemstone sits inside its setting. Too large = wobble. Too small = stone sits too high.</span></span>? <span style="color:var(--ink-red);font-style:italic;">— very relevant for 100Ways!</span></div>
+  </div>
+  <div class="q-group">
+    <div class="q-header">Item Quality</div>
+    <div class="q-item"><span class="q-num">10</span>Condition of mechanical components?</div>
+    <div class="q-item"><span class="q-num">11</span>Is it well made and structurally sound?</div>
+    <div class="q-item"><span class="q-num">12</span>For which market was the item made?</div>
+  </div>
+
+  <div class="margin-note">Many pieces are a COMBINATION of manufacturing methods. Don't assume one method accounts for the whole piece.</div>
+
+  <div class="tw-card">
+    <h4>Examination Protocol — Research Notes</h4>
+    <p class="tw-text">GIA standard examination magnification is <strong>10×</strong>, the same used for diamond clarity grading. At this power, casting porosity, 3D printing grow lines, solder colour mismatches, and tool marks all become visible. Start from the <strong>back/underside</strong> (the gallery), then move to edges, joints, and finally the front — prevents being "sold" by the polished presentation before reading the construction story.</p>
+    <p class="tw-text" style="margin-top:0.4rem;">Fiber-optic illumination at an oblique angle reveals surface texture that overhead lighting hides. Professional microscopes go to 40×–60× for detailed surface analysis.</p>
+    <div class="tw-links">
+      <a href="https://www.gia.edu/" target="_blank">GIA Homepage</a>
+      <a href="https://en.wikipedia.org/wiki/Loupe" target="_blank">Wikipedia: Loupe</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3 class="journal">Quality Assurance Benchmarks</h3>
+  <p class="journal-text">First step with a finished piece is QA. Looking for inconsistencies, pits, solder seams. <span class="ink-em">"We look at edges, underside, corners — stuff that was hard to hide or perfect."</span></p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.8rem;">
+    <div>
+      <h3 class="journal" style="font-size:1.15rem;color:var(--ink);">✓ Well-Executed</h3>
+      <ul class="journal-list">
+        <li>Removal of evidence of manufacture</li>
+        <li>Complete removal of tool markings</li>
+        <li>Crisp sharp straight edges</li>
+        <li>Secure stones</li>
+        <li>Functioning mechanics</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="journal" style="font-size:1.15rem;color:var(--ink-red);">✗ Poorly Executed</h3>
+      <ul class="journal-list">
+        <li>Increased risk of damage</li>
+        <li>Higher likelihood of repairs</li>
+        <li>Gemstone loss</li>
+        <li>Mechanical failure</li>
+        <li>Lower value, possible lawsuit</li>
+      </ul>
+    </div>
+  </div>
+
+  <blockquote class="journal">"Can I sleep wearing this?" — debate, nuance. But in theory if it's really well done, it should be safe.</blockquote>
+
+  <p class="journal-text" style="margin-top:0.6rem;"><strong>Handling:</strong> White gloves policy — for polish. But don't overpolish. Workmanship has an endless skill ceiling. "Humans have been making jewellery for thousands and thousands of years."</p>
+
+  <div class="tw-card">
+    <h4>Historical Context</h4>
+    <p class="tw-text">The earliest decorative jewellery consists of shell beads dating back ~100,000 years (Blombos Cave, South Africa). Gold jewellery has been crafted since at least 4,500 BCE — the <strong>Varna Necropolis</strong> in Bulgaria contains the oldest known gold artifacts. Gold's inability to corrode or tarnish explains why ancient pieces survive in pristine condition — they truly "come out of the ground in the same condition they went in."</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Varna_Necropolis" target="_blank">Wikipedia: Varna Necropolis</a>
+      <a href="https://en.wikipedia.org/wiki/History_of_jewellery" target="_blank">Wikipedia: History of Jewellery</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 2. METALS & FINENESS ═══════════════ -->
+<section id="metals">
+  <div class="journal-label">Presentation 5 — Mike Magee</div>
+  <h2 class="journal">Precious Metals</h2>
+  <p class="journal-text">He calls pure gold and pure silver <span class="ink-em">"FINE gold" and "FINE silver."</span> 18K is the standard in Europe, 14K in NA. "Annealed" = heat-treated to soften after work hardening.</p>
+
+  <h3 class="journal">Gold Alloy Colours (14K)</h3>
+  <table class="journal-table">
+    <thead><tr><th>Colour</th><th>Composition</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">Yellow</td><td>Gold + copper + silver + zinc</td><td>The classic</td></tr>
+      <tr><td class="hl">Green</td><td>Gold + copper + silver (↑ silver)</td><td>Subtle green hue; rare</td></tr>
+      <tr><td class="hl">Rose</td><td>Gold + copper (↑ copper)</td><td>Often brittle — unsuitable for prongs!</td></tr>
+      <tr><td class="hl">White</td><td>Gold + nickel or palladium + Cu + Zn</td><td>Usually rhodium-plated</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="journal">Properties That Matter</h3>
+  <p class="journal-text">How an alloy carves, saws, moulds, finishes depends on: <span class="tt">Hardness<span class="ttp">Mohs scale (1–10, qualitative) or Vickers HV (quantitative). Pure gold ~25 HV. 14K ~130–180 HV. Diamond = 10 on Mohs (hardest natural material).</span></span> · <span class="tt">Malleability<span class="ttp">Ability to be hammered thin. Gold is the most malleable metal — 1g can be beaten into a 1m² sheet.</span></span> · <span class="tt">Ductility<span class="ttp">Ability to be drawn into wire. 1g of gold can be drawn into 3km of wire.</span></span> · Density · Colour · Strength · <span class="tt">Melting Point<span class="ttp">Au: 1,064°C. Ag: 961°C. Pt: 1,768°C. Alloys vary — critical for soldering (solder must melt below base metal).</span></span></p>
+
+  <p class="journal-text" style="margin-top:0.5rem;"><strong>Other metals in play:</strong> <span class="tt">Palladium<span class="ttp">Platinum group metal. Lighter, less expensive than Pt. Palladium white gold melts well, pours well, hardens well — hypoallergenic unlike nickel white gold.</span></span> (nice to work with!), <span class="tt">tungsten<span class="ttp">Tungsten carbide: Mohs 9–9.5, extremely scratch-resistant, cannot be resized, can shatter. Must be cracked off in emergencies — can't be cut.</span></span>, <span class="tt">titanium<span class="ttp">Lightweight, hypoallergenic, corrosion-resistant. Can be anodized for vivid colours. Hard to solder — usually machined or cold-connected.</span></span>, <span class="tt">niobium<span class="ttp">Soft ductile metal producing vivid anodized colours. Hypoallergenic. Used for earring posts and art jewellery.</span></span>, stainless, ceramic. Cartier 1996 — the year they switched their white gold alloy.</p>
+
+  <div class="tw-card">
+    <h4>Gold Alloys — Deeper Properties</h4>
+    <p class="tw-text">Rose gold's high copper content makes it not only brittle but prone to <strong>fire scale</strong> (a reddish-purple stain from copper oxide forming beneath the surface during heating). It can also crack during ring sizing. Palladium white gold, introduced widely in the early 2000s, solved the nickel allergy problem that affected ~10–15% of wearers — EU regulations (the Nickel Directive, 1994) restricted nickel in jewellery contacting skin, driving the shift.</p>
+    <p class="tw-text" style="margin-top:0.3rem;"><strong>Work hardening</strong> is key to understanding alloys: every bend, strike, or draw compresses the crystal grain, making metal harder and more brittle. <strong>Annealing</strong> (heating to a specific temperature, then cooling) resets the structure. A fabricator may anneal a piece dozens of times during construction.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Colored_gold" target="_blank">Wikipedia: Coloured Gold</a>
+      <a href="https://en.wikipedia.org/wiki/Work_hardening" target="_blank">Wikipedia: Work Hardening</a>
+      <a href="https://en.wikipedia.org/wiki/Annealing_(metallurgy)" target="_blank">Wikipedia: Annealing</a>
+    </div>
+  </div>
+</section>
+
+<section id="fineness">
+  <div class="journal-label">Presentation 4 — Mike Magee</div>
+  <h2 class="journal">Fineness & Stamping</h2>
+
+  <h3 class="journal">US Stamping Timeline</h3>
+  <table class="journal-table">
+    <thead><tr><th>Year</th><th>What happened</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">Pre-1906</td><td>USA items generally unstamped</td></tr>
+      <tr><td class="hl">1906</td><td>National Gold & Silver Marking Act</td></tr>
+      <tr><td class="hl">1961</td><td>Requires fineness mark + registered TM</td></tr>
+      <tr><td class="hl">1976</td><td><span class="tt">Plumb gold<span class="ttp">"Plumb" = exact. Gold must be AT MINIMUM stamped %. Before 1976, half-karat leeway existed (13.5K could be stamped 14K).</span></span> required. <span class="tt">Responsibility mark<span class="ttp">Formal term for maker's mark. Identifies manufacturer/importer. Required alongside fineness mark after 1976.</span></span> required with fineness</td></tr>
+      <tr><td class="hl">2018</td><td>FTC update: 1K gold OK if marked. 10K+ = just "Gold." Sterling still 925. Pt still 500ppt. Rhodium plating must be disclosed</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="journal">Karat vs. Millesimal</h3>
+  <table class="journal-table">
+    <thead><tr><th>Karat</th><th>Millesimal</th><th>% Gold</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">24K</td><td>999</td><td>99.9%</td><td>Bullion, Asian jewellery</td></tr>
+      <tr><td class="hl">22K</td><td>916</td><td>91.6%</td><td>Indian, Sovereigns</td></tr>
+      <tr><td class="hl">18K</td><td>750</td><td>75.0%</td><td>European standard</td></tr>
+      <tr><td class="hl">14K</td><td>585</td><td>58.5%</td><td>North American standard</td></tr>
+      <tr><td class="hl">10K</td><td>417</td><td>41.7%</td><td>Budget (formerly US min)</td></tr>
+      <tr><td class="hl">9K</td><td>375</td><td>37.5%</td><td>UK/AUS/NZ minimum</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="journal">Reading Stamps</h3>
+  <ul class="journal-list">
+    <li>Type: original, <span class="tt">cast impression<span class="ttp">RED FLAG — mould was made from already-stamped piece. Cast stamps appear softer, less crisp, rounded letter edges.</span></span>, stamped tab, laser etched</li>
+    <li>Location: on piece vs. hardware/clasp</li>
+    <li>Colour match: does stamp metal match the gold?</li>
+    <li>Case study: a cast stamp — entire item including stamp was cast from a mould of the original</li>
+  </ul>
+
+  <p class="journal-text" style="margin-top:0.6rem;"><strong>Sterling tarnish Q&A:</strong> Alloy composition varies. Some plastic bags <span class="tt">off-gas sulfur<span class="ttp">Certain plastics (PVC) release hydrogen sulfide, reacting with silver to form silver sulfide tarnish. Anti-tarnish strips prevent this.</span></span> which tarnishes sterling. White gold = mostly <span class="tt">rhodium plating<span class="ttp">Thin coating (~0.75–1μm) of rhodium applied via electroplating. Bright white appearance. Temporary — wears off in 1–3 years.</span></span> (temporary).</p>
+</section>
+
+<section id="hallmarks">
+  <div class="tw-card">
+    <h4>Hallmarking — A Deeper Look</h4>
+    <p class="tw-text"><strong>Hallmarks are common outside the US</strong> — not done by the jeweller but by an independent assay office (from the notes). European brands have strict hallmarking.</p>
+    <p class="tw-text" style="margin-top:0.4rem;">Hallmarking is one of the world's oldest consumer protections, dating to King Louis IX of France and Edward I of England in the 1200s. In 1327, Edward III chartered the <strong>Worshipful Company of Goldsmiths</strong> at Goldsmiths' Hall, London — origin of the word "hallmark."</p>
+    <table class="tw-table" style="margin-top:0.5rem;">
+      <thead><tr><th>UK Component</th><th>What It Tells You</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Sponsor's Mark</td><td>Identifies the maker</td></tr>
+        <tr><td class="hl">Fineness Mark</td><td>375, 585, 750, 916, 999</td></tr>
+        <tr><td class="hl">Assay Office</td><td>Leopard (London), Anchor (Birmingham), Rose (Sheffield), Castle (Edinburgh)</td></tr>
+        <tr><td class="hl">Date Letter</td><td>Year of testing (optional since 1999)</td></tr>
+      </tbody>
+    </table>
+    <p class="tw-text" style="margin-top:0.4rem;"><strong>International:</strong> France: eagle head (18K), owl (imports). Italy: star-code system. Germany: no mandatory hallmarking. India: BIS now mandatory. US/Canada: manufacturer-applied.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Hallmark" target="_blank">Wikipedia: Hallmark</a>
+      <a href="https://en.wikipedia.org/wiki/Fineness" target="_blank">Wikipedia: Fineness</a>
+      <a href="https://www.gold.org/about-gold/about-gold-jewellery/gold-hallmarks" target="_blank">World Gold Council: Hallmarks</a>
+      <a href="https://www.gold-traders.co.uk/hallmarks/" target="_blank">Gold Traders: Hallmark Wizard</a>
+      <a href="https://www.assayofficelondon.co.uk/" target="_blank">London Assay Office</a>
+    </div>
+  </div>
+</section>
+
+<section id="platinum">
+  <h2 class="journal">Platinum</h2>
+  <p class="journal-text">In 1939, designated a strategic metal. Notoriously difficult to work with — <span class="ink-em">the test of a jeweller's mettle.</span></p>
+  <blockquote class="journal">"When the Spanish conquistadors arrived in Colombia they found platinum. They tried to melt it — it wouldn't melt. Tried to form it — too hard. Didn't polish right. They called it 'Platina' — little silver, inferior silver."</blockquote>
+  <p class="journal-text">Didn't figure out working with it until 1870s. "Oh it's actually great."</p>
+
+  <table class="journal-table" style="margin-top:0.6rem;">
+    <thead><tr><th>Alloy</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">Pt-Ruthenium (950)</td><td>The default. Good all-around</td></tr>
+      <tr><td class="hl">Cobalt-Pt</td><td>MAGNETIC. Good for casting, difficult to work</td></tr>
+      <tr><td class="hl">Iridium-Pt (900)</td><td>Older. Machining limitations</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tw-card">
+    <h4>Platinum — Extended History & Properties</h4>
+    <p class="tw-text">The conquistadors threw platinum back into rivers, believing it was "unripe gold." Meanwhile, the <strong>La Tolita people</strong> (Ecuador/Colombia, ~600 BCE–400 CE) had been working platinum for centuries using sintering techniques Europe wouldn't rediscover for 2,000 years. Earliest known Pt use: Egyptian hieroglyph decorations ~700 BCE using Pt-Au alloy.</p>
+    <p class="tw-text" style="margin-top:0.3rem;">Key breakthrough: 1895, Fouché and Picard invent the <strong>oxyacetylene torch</strong>, finally reaching Pt's 1,768°C melting point. Louis Cartier pioneers Pt jewellery — delicate "Garland Style" diamond settings impossible in gold. In WWII, Pt was prohibited for civilian use; white gold was invented as its substitute (Pforzheim, Germany, 1912).</p>
+    <p class="tw-text" style="margin-top:0.3rem;"><strong>Forensic note:</strong> Platinum doesn't wear away — it <strong>displaces</strong>. Scratches push metal aside rather than removing it. Pt develops a characteristic matte patina. All Pt jewellery is 90–95% pure, vs. gold which can be as low as 37.5% (9K).</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Platinum" target="_blank">Wikipedia: Platinum</a>
+      <a href="https://www.langantiques.com/university/platinum-2/" target="_blank">Antique Jewelry University: Platinum</a>
+      <a href="https://menofplatinum.com/history-of-platinum/" target="_blank">Men of Platinum: History</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 3. MANUFACTURING METHODS ═══════════════ -->
+<div class="journal-label">Presentation 6 + Day 2</div>
+<h2 class="journal" style="margin-bottom:0.8rem;">Manufacturing Methods</h2>
+<p class="journal-text" style="margin-bottom:0.3rem;">Covering 5–7 thousand years. "If I have done my job well nobody can tell how I made it." The CAD designer is one half, but the jeweller makes a big difference too — <span class="ink-em">an interesting dichotomy/duo.</span></p>
+<p class="journal-text">Market considerations: cost, metal materials (some alloys prefer different methods), complexity, reproducibility, speed, durability, comfort. All tools have finite life — expensive specialized equipment contributes to cost and preciousness.</p>
+
+<section id="casting">
+  <h3 class="journal">Lost Wax Casting <span class="method-tag mt-cast">Casting</span></h3>
+  <p class="journal-text">Wax model is carved → mould is made → wax melted out → metal poured in. Master model → multiple moulds → each makes new wax → more moulds. <strong>Shrinks ~3%.</strong> The part that cools last gets the <span class="tt">porosity<span class="ttp">Tiny holes from trapped gas or shrinkage during cooling. The thickest section cools last and is most prone. "It is very difficult to polish a sponge."</span></span>. All metal is slightly porous (tiny crystals), but invisible except in cast pieces.</p>
+
+  <h3 class="journal" style="font-size:1.15rem;">Telltale Signs of Casting</h3>
+  <ul class="journal-list">
+    <li><span class="tt">Nodules<span class="ttp">Small bumps from air bubbles trapped in the investment mould material.</span></span> · Sand trails or tracks</li>
+    <li><span class="tt">Part lines<span class="ttp">Visible seams where rubber mould halves met. A thin ridge transfers from wax to metal.</span></span> from the mould · <span class="tt">Casting skin<span class="ttp">Slightly rough, matte texture on unpolished cast metal — the layer that contacted the investment.</span></span></li>
+    <li><span class="tt">Finning<span class="ttp">Thin metal flashes in recesses where molten metal seeped into tiny investment cracks.</span></span> in recessed areas · Porosity ("sugary coating" look)</li>
+    <li><span class="tt">Sprue mark<span class="ttp">A filed-down bump where the piece was cut from the casting tree — the channel through which metal flowed into the mould cavity.</span></span> — where piece was cut from the tree</li>
+  </ul>
+
+  <blockquote class="journal">"If you can't hide it, make it shine. If you can't hide it, embellish it."</blockquote>
+
+  <div class="case-study">
+    <div class="case-study-label">Day 2 Case Study — Filigree Ring (925, Gold Plated)</div>
+    <p class="journal-text">No solder visible, even though intricate. Sidewall in the azures: POROUS! Impression of the investment. On edges: <span class="ink-em">growth pattern visible = 3D printed model, then cast.</span> Tops of prongs polished, sides not. <strong>Stones cast in place</strong> — typical for lower-end mass-manufactured. "Great look for much less labour."</p>
+  </div>
+
+  <div class="case-study">
+    <div class="case-study-label">Day 2 Case Study — Raw Casting</div>
+    <p class="journal-text">Has the sprue still attached. Poor quality — lots of texture, edges and seams. A jeweller would not like to work with this.</p>
+  </div>
+
+  <div class="tw-card">
+    <h4>Lost Wax Casting — Historical & Technical Background</h4>
+    <p class="tw-text">The oldest known lost-wax-cast objects date to <strong>~4550 BCE</strong> (Varna Necropolis, Bulgaria). Also called <em>cire perdue</em> (French) or investment casting. Used across Mesopotamia, Egypt, the Benin Kingdom (the famous Benin Bronzes), and pre-Columbian Americas.</p>
+    <p class="tw-text" style="margin-top:0.3rem;">Modern breakthrough: 1936, Danish engineer <strong>Thoger Jungersen</strong> patented the rubber mould, enabling multiple wax copies from one master. Before this, every wax was destroyed — a one-shot process. Today, waxes are typically injected into rubber moulds, attached to a central "tree" (sprue), invested in plaster, and burnt out at 700–760°C.</p>
+    <p class="tw-text" style="margin-top:0.3rem;">Cast pieces are <strong>less dense</strong> than die-struck or fabricated equivalents — they wear faster, don't hold as high a polish. But casting offers nearly unlimited design freedom: undercuts, organic shapes, complex 3D forms impossible via other methods.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Lost-wax_casting" target="_blank">Wikipedia: Lost-Wax Casting</a>
+      <a href="https://formlabs.com/blog/lost-wax-casting/" target="_blank">Formlabs: Complete Guide</a>
+      <a href="https://www.penn.museum/sites/expedition/the-lost-wax-casting-technique/" target="_blank">Penn Museum</a>
+      <a href="https://www.langantiques.com/university/casting/" target="_blank">Antique Jewelry University</a>
+    </div>
+  </div>
+</section>
+
+<section id="cadcam">
+  <h3 class="journal">CAD/CAM & 3D Printing <span class="method-tag mt-cad">Modern Casting</span></h3>
+  <p class="journal-text">CAD makes mirror images easy, gives access to digital design libraries, accuracy to 0.1mm. Got really "CADy" at first — angular, architectural. <span class="ink-em">Now out of vogue.</span> CNC wax carvers: slow, expensive. 3D printing has largely replaced them.</p>
+
+  <h3 class="journal" style="font-size:1.15rem;">Telltale Signs of 3D Printing</h3>
+  <ul class="journal-list">
+    <li><span class="tt">Grow lines<span class="ttp">Layer lines from the build process, each 25–100 microns thick. Like tree growth rings. Look in nooks/crannies where polishing doesn't reach.</span></span> — built layer by layer, "like the lines of a tree." Look in nooks and crannies</li>
+    <li>Support nubs — models hang upside down from a <span class="tt">resin bath<span class="ttp">SLA/DLP 3D printers build models upside-down by selectively curing a vat of UV-sensitive resin. Supports hold the model to the build plate. The resulting castable pattern replaces hand-carved wax.</span></span>. Sometimes leave small marks. Usually cleaned up</li>
+    <li>Perfect bilateral symmetry — digital mirror tools</li>
+    <li>Uniform wall thickness — mathematically precise</li>
+  </ul>
+
+  <div class="tw-card">
+    <h4>Modern CAD/CAM Workflow</h4>
+    <p class="tw-text">Industry-standard software: <strong>Rhino + MatrixGold</strong> (formerly Matrix), <strong>ZBrush</strong> for organic forms, <strong>JewelCAD</strong>. Modern SLA/DLP printers achieve 25-micron layer resolution — what once took a skilled carver days prints overnight. <strong>Direct Metal Laser Sintering (DMLS)</strong> is emerging: metal powder sintered by laser, skipping wax entirely. Still rare in fine jewellery but growing for titanium/steel.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Computer-aided_design" target="_blank">Wikipedia: CAD</a>
+      <a href="https://en.wikipedia.org/wiki/Stereolithography" target="_blank">Wikipedia: Stereolithography</a>
+      <a href="https://en.wikipedia.org/wiki/Selective_laser_melting" target="_blank">Wikipedia: DMLS/SLM</a>
+    </div>
+  </div>
+</section>
+
+<section id="handfab">
+  <h3 class="journal">Hand Fabrication <span class="method-tag mt-fab">Hand Made</span></h3>
+  <p class="journal-text">Creating the object from raw materials — sheet, wire, rod. <span class="tt">FTC "handmade"<span class="ttp">Legally specific: entire shaping from raw materials using hand labour and hand tools. A piece using cast components assembled by hand doesn't qualify.</span></span> = entire shaping from raw, everything hand tools. Techniques: torch soldering, laser welding, polishing, <span class="tt">engraving<span class="ttp">Cutting lines into metal with a graver (burin). Hand engraving produces uniquely fluid cuts. Can also be CAD-modelled or laser-done.</span></span>, <span class="tt">piercing<span class="ttp">Using a jeweller's saw (blade thin as a hair) to cut interior shapes from sheet metal. Creates openwork/filigree patterns.</span></span>, <span class="tt">forming<span class="ttp">Synclastic (bowl, curves inward) and anticlastic (saddle, curves opposing). Exploits malleability to create 3D forms from flat sheet.</span></span> (synclastic/anticlastic).</p>
+
+  <h3 class="journal" style="font-size:1.15rem;">Telltale Signs of Hand Fab</h3>
+  <ul class="journal-list">
+    <li>Saw marks — wavy cut edges. TOOL MARKS</li>
+    <li>Little solder marks connecting pieces</li>
+    <li>Slight imperfections/inconsistencies</li>
+    <li><span class="ink-em">Crisp edges</span> (cast = softer)</li>
+    <li>Solder pitting at joints (vs. porosity at thick parts in castings)</li>
+    <li>Multiple metal tones — couldn't cast full thing in different metals</li>
+    <li>Multiple joined objects — look for joints, solder, colour mismatch, <span class="tt">"meniscus"<span class="ttp">Slight curved buildup of solder at a joint — like water curving at glass edge. Key forensic clue for hand assembly.</span></span></li>
+  </ul>
+
+  <div class="margin-note">Wear vs. tool marks: Scratches are random directions. Tool marks are parallel.</div>
+
+  <div class="case-study">
+    <div class="case-study-label">Day 2 Case Study — Cocktail Ring</div>
+    <p class="journal-text">Solder lines visible — assembled! Solder + pits. Inconsistent solder from different edges. <span class="tt">Filigree<span class="ttp">Delicate metalwork using thin wire soldered into intricate patterns. True filigree = hand-fabricated; each wire element individually formed and soldered.</span></span> pattern: each component individually soldered in place. <span class="ink-em">HAND FAB!</span> "The telltale meniscus of solder." Not much in terms of tool marks (cleaned up well).</p>
+  </div>
+
+  <div class="tw-card">
+    <h4>Why Hand Fabrication Produces Superior Metal</h4>
+    <p class="tw-text">Starts from <strong>wrought metal</strong> — rolled/drawn from ingot, compressing the grain structure. This produces the densest, strongest jewellery possible. Edges are crisper, metal takes a higher polish, and work can survive centuries. The aesthetic advantage: solder joints are sharp, angles crisp, wires retain perfect cylindrical shape. Custom hand-fabricated pieces bear the full cost of the process — always more expensive than comparable mass-produced items.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Metalsmith" target="_blank">Wikipedia: Metalsmithing</a>
+      <a href="https://en.wikipedia.org/wiki/Filigree" target="_blank">Wikipedia: Filigree</a>
+      <a href="https://en.wikipedia.org/wiki/Repouss%C3%A9_and_chasing" target="_blank">Wikipedia: Repoussé & Chasing</a>
+      <a href="https://www.ganoksin.com/topic/jewelry-making/metal-forming/" target="_blank">Ganoksin: Metal Forming</a>
+    </div>
+  </div>
+</section>
+
+<section id="diestrike">
+  <h3 class="journal">Die Striking <span class="method-tag mt-die">Die Struck</span></h3>
+  <p class="journal-text">Early mass manufacturing, 1910–1920 peak (fades in 20s but still happens). Steel dies cut/stamp/form sheet metal. Creating the die = very labour intensive. Produces <span class="ink-em">STRONGER HIGHER DENSITY</span> components. Sharp, accurate, repeatable. Expensive upfront, efficient long run. Creates thin, hard, springy pieces — compression <span class="tt">work hardens<span class="ttp">Metal gets harder/stiffer when deformed. Die striking uses up to 50 TONS of force — making metal ~33% denser than cast equivalents.</span></span> it.</p>
+
+  <h3 class="journal" style="font-size:1.15rem;">Common Uses</h3>
+  <ul class="journal-list">
+    <li>Hollow beads, charms, earring backings</li>
+    <li>Small components = <span class="ink-em">"<span class="tt">Findings<span class="ttp">Pre-made components: settings, clasps, earring posts, pin stems, jump rings. Die-struck findings preferred for stone settings — density holds prongs more securely.</span></span>"</span></li>
+    <li><span class="tt">Progressive die striking<span class="ttp">Multi-station process: strip moves through stations each performing one operation (blank, form, bend, trim). Earring backs go through a series. Thousands of pieces per hour.</span></span> — watched a video of earring backs</li>
+  </ul>
+
+  <h3 class="journal" style="font-size:1.15rem;">Telltale Signs</h3>
+  <ul class="journal-list">
+    <li>Crisp symmetrical edges. Little to no porosity</li>
+    <li><span class="ink-em"><span class="tt">Shear lines<span class="ttp">Die striking's forensic signature. Trimmed metal shears in stages: clean cut perpendicular to edge → directional tear where metal was thin enough to rip. Creates layered texture. Usually cleaned up but visible under magnification.</span></span></span> — distinct linear pattern ⊥ to edge, then direction change, then texture change where it tore/sheared</li>
+    <li>Hollow/lightweight. Repeating design — "cookie-cuttered"</li>
+  </ul>
+
+  <div class="case-study">
+    <div class="case-study-label">Day 2 Case Study — Big Ornate Pin</div>
+    <p class="journal-text">Lots of detail. <span class="tt">Milgrain<span class="ttp">Row of tiny beads along edges. Milgrain wheel rolled along metal edge. Common in Art Deco/Edwardian work. Hand = slight irregularities; machine = perfectly uniform.</span></span> texture on thin wires. Blue enamel — could be champlevé. Different layers assembled, parts riveted. Really crisp lines. Along edges inside: <span class="ink-em">shear lines visible. DIE STRUCK.</span></p>
+  </div>
+
+  <div class="tw-card">
+    <h4>Die Making & Surviving Manufacturers</h4>
+    <p class="tw-text">A <strong>hub</strong> (positive, carved in steel relief) → pressed into steel to create <strong>master die</strong> (negative) → master only used to make <strong>working dies</strong> → working dies stamp at 50 tons until cracking. Some dies are 100+ years old and still in use.</p>
+    <p class="tw-text" style="margin-top:0.3rem;">Very few firms still die-strike: <strong>Whitehouse Brothers</strong> (120+ years, hundreds of original dies), <strong>Jabel</strong> (100+ years, "American Die Struck Jewelry Since 1916"), <strong>Van Craeynest</strong> (uses original Art Deco/Nouveau dies, Victorian-era equipment), and <strong>Stuller</strong>'s die-striking department.</p>
+    <div class="tw-links">
+      <a href="https://www.langantiques.com/university/die-struck-stamping/" target="_blank">AJU: Die Struck</a>
+      <a href="https://www.jabel.com/die-struck" target="_blank">Jabel: Process</a>
+      <a href="https://www.whitehousebrothers.com/about/our-process.html" target="_blank">Whitehouse Brothers</a>
+      <a href="https://www.emersonfinejewelry.com/pages/die-struck-jewelry" target="_blank">Van Craeynest</a>
+      <a href="https://en.wikipedia.org/wiki/Stamping_(metalworking)" target="_blank">Wikipedia: Stamping</a>
+    </div>
+  </div>
+</section>
+
+<section id="machining">
+  <h3 class="journal">Machining <span class="method-tag mt-machine">Machined</span></h3>
+  <p class="journal-text">Fabricated stock (tubing) shaped for mass production. Good for <strong>alternative metals</strong> — steel, titanium, tungsten carbide — too hard for normal processes. Started in 90s. Mostly simpler stuff (bands), can still set stones.</p>
+  <ul class="journal-list">
+    <li>Evenly spaced recesses. <strong>NO SOLDER</strong>. Very little porosity</li>
+    <li>Very crisp edges, very uniform — but limited geometry</li>
+    <li>More wear/scratch resistant</li>
+  </ul>
+  <div class="tw-card">
+    <h4>CNC Machining in Jewellery</h4>
+    <p class="tw-text">Typically uses Swiss-type lathes or 5-axis CNC mills. Metal starts as solid wrought stock, so machined pieces share the density of hand-fabricated work. Main limitation: subtractive process — no undercuts or hollow forms without secondary operations. Tolerances to ±0.01mm. Growing sector for men's wedding bands in tungsten, cobalt chrome, and titanium.</p>
+    <div class="tw-links"><a href="https://en.wikipedia.org/wiki/Numerical_control" target="_blank">Wikipedia: CNC</a></div>
+  </div>
+</section>
+
+<section id="electroforming">
+  <h3 class="journal">Electroforming <span class="method-tag mt-electro">Electroformed</span></h3>
+  <p class="journal-text">Have a non-conductive object, deposit a relatively thick layer of precious metal on top. Core can be removed → hollow shell.</p>
+  <div class="tw-card">
+    <h4>Electroforming — Characteristics & Identification</h4>
+    <ul class="tw-list">
+      <li><strong>Very lightweight</strong> — the giveaway. Ideal for large earrings</li>
+      <li>Exquisitely detailed surface capture</li>
+      <li><strong>Fragile</strong> — dents easily, usually replaced not repaired</li>
+      <li>Not suitable for rings/bracelets (too vulnerable to impact)</li>
+      <li>Originally required 23–24K gold; since 1980s, 14K and 18K possible</li>
+      <li>May have seam/fill-hole where core was removed</li>
+    </ul>
+    <div class="tw-links"><a href="https://en.wikipedia.org/wiki/Electroforming" target="_blank">Wikipedia: Electroforming</a></div>
+  </div>
+</section>
+
+<section id="mokume">
+  <h3 class="journal">Mokume-Gane</h3>
+  <p class="journal-text"><span class="tt">Mokume-Gane<span class="ttp">Pronounced MOH-koo-may GAH-nay. 木目金 = "wood grain metal." Japanese laminate technique: layer metals, carve to different depths, roll flat to reveal woodgrain pattern.</span></span> — Japanese technique for laminating different coloured metals into a billet, then drilling/carving indentations to different depths, then rolling out to produce a woodgrain pattern.</p>
+  <div class="tw-card">
+    <h4>Mokume-Gane — History & Craft</h4>
+    <p class="tw-text">Invented ~1660 by <strong>Denbei Shoami</strong> (Akita Prefecture) for samurai sword fittings. Originally called "guri bori" after Chinese carved lacquerwork. Traditional metals: gold, silver, copper, <strong>shakudō</strong> (gold-copper, dark purple), <strong>shibuichi</strong> (silver-copper, grey-green). Tiffany & Co. experimented ~1877. Nearly extinct by mid-20th century; revived in 1970s by Hiroko Sato Pijanowski. Today popular for wedding bands. ~65% of metal weight is lost as waste. Every piece is unique.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Mokume-gane" target="_blank">Wikipedia: Mokume-Gane</a>
+      <a href="https://mokumegane-japan.com/en/history.html" target="_blank">Mokume Gane Ya</a>
+      <a href="https://www.igi.org/mokume-gane-from-swords-to-jewelry/" target="_blank">IGI: Swords to Jewelry</a>
+      <a href="https://www.mokume.com/mokume-gane" target="_blank">Steven Jacob</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 4. JOINING & FINISHING ═══════════════ -->
+<section id="joining">
+  <div class="journal-label">Presentations 5 & 6 + Day 2</div>
+  <h2 class="journal">Joining & Finishing</h2>
+
+  <h3 class="journal">Solder</h3>
+  <p class="journal-text">The filler metal. Signs of solder: <span class="tt">porosity at the joint<span class="ttp">Bubbles/holes at a solder joint = overheating, dirt/oil contamination, or improper fit between parts.</span></span> = overheating, dirt, or improper fit.</p>
+  <p class="journal-text"><strong>Good joints:</strong> colour match, proper heat, no excess, no pitting. <strong>Bad joints:</strong> gloppy, pitting, incomplete flow. <strong>Check bracelets:</strong> are the links even soldered? If not, not durable.</p>
+
+  <h3 class="journal" style="color:var(--ink-red);">Lead Solder ⚠</h3>
+  <ul class="journal-list">
+    <li>Dark grey seam. Never a good colour match</li>
+    <li>Risky to remove — <span class="tt">leaches into gold<span class="ttp">Lead diffuses into gold's crystal structure during application. Even after removing visible lead, microscopic contamination remains — permanently compromising the surrounding metal.</span></span></li>
+    <li>Test: scratch with a pin — if it <span class="tt">burnishes<span class="ttp">Lead is so soft that light pressure from a pin will smooth and shine its surface. If a grey solder joint polishes up almost effortlessly, it's likely lead.</span></span> with almost no pressure, it's lead</li>
+    <li>Common in late 1800s–early 1900s. Reduces value</li>
+  </ul>
+
+  <h3 class="journal">Laser Welding — The Modern Replacement</h3>
+  <blockquote class="journal">"As jewellers leap into the 21st century... we use lasers."</blockquote>
+  <ul class="journal-list">
+    <li>Joins metal <strong>without solder</strong> — a true weld. Box about desk-sized</li>
+    <li>So precise you can weld near sensitive gems (amethyst, coral, pearl)</li>
+    <li>Looks like a "roll of dimes pushed to one side"</li>
+    <li>No colour difference — no filler material. If cleaned properly, invisible</li>
+    <li>Can use tiny gold wire held against weld point for extra material</li>
+    <li>Platinum reacts very nicely with laser — can polish and remove porosity</li>
+  </ul>
+
+  <div class="margin-note">Platinum repairs often done with white gold solder — Pt needs such high temp that diamonds would burn (~850°C).</div>
+
+  <div class="tw-card">
+    <h4>Solder Types — Technical Detail</h4>
+    <p class="tw-text">Gold/silver solders come in temperature grades: <strong>Hard</strong> (~745°C for silver), <strong>Medium</strong> (~720°C), <strong>Easy</strong> (~680°C). Using them in sequence (hard first, then medium, then easy) allows multiple joints without melting earlier work. Flux (borax-based) prevents oxidation during heating — residual flux appears as glassy residue in crevices (another forensic clue).</p>
+    <p class="tw-text" style="margin-top:0.3rem;"><strong>Laser welding</strong> works by focusing a pulsed laser beam (typically Nd:YAG, wavelength 1064nm) to a spot ~0.5mm diameter. Energy is absorbed so locally that surrounding metal barely heats — enabling work millimeters from heat-sensitive stones. The "roll of dimes" appearance is from overlapping circular weld spots.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Solder" target="_blank">Wikipedia: Solder</a>
+      <a href="https://en.wikipedia.org/wiki/Laser_beam_welding" target="_blank">Wikipedia: Laser Welding</a>
+      <a href="https://www.ganoksin.com/topic/jewelry-making/metal-forming/" target="_blank">Ganoksin</a>
+    </div>
+  </div>
+
+  <h3 class="journal">Finishes & Surface Techniques</h3>
+  <p class="journal-text"><span class="ink-em">"We're always chasing the tool marks"</span> — file to remove material, sandpaper to remove filing, finer sandpaper to remove previous sandpaper marks…</p>
+  <ul class="journal-list">
+    <li>Polished (mirror), Brushed (contrast, shows flow), Hammered (textured)</li>
+    <li><span class="tt">Electroplating<span class="ttp">Thin metal coating via electric current. Rhodium on white gold = ~50 microns (0.05mm). Half a sheet of paper. "Do maintenance on your jewellery."</span></span>: Rhodium for white gold — ~50μm, about one hair's thickness</li>
+    <li>Engraving: hand (gravers), CAD-modelled (faux), or laser</li>
+  </ul>
+
+  <h3 class="journal"><span class="tt">Granulation<span class="ttp">Ancient practice (Etruscan, ~700 BCE) bonding tiny gold beads to surface without visible solder. Original method used copper salt + hide glue for colloidal bonding. True granulation has air gaps between beads; imitations are cast/soldered (gaps filled).</span></span></h3>
+  <p class="journal-text">Ancient practice of bonding tiny beads to the surface. Real granulation = beads bonded (not cast or soldered) — with little air gaps.</p>
+
+  <div class="tw-card">
+    <h4>Granulation & Etruscan Metalwork</h4>
+    <p class="tw-text">The Etruscans (~700–300 BCE, central Italy) mastered granulation with beads as small as <strong>0.14mm diameter</strong> — a technique so refined that it was lost for over 2,000 years. The secret involved <strong>copper salt + organic glue</strong>: when heated, the glue burned away and the copper reduced, creating a thin fusion bond between bead and surface without melting either. Modern goldsmith <strong>John Paul Miller</strong> (1918–2010) rediscovered the technique in the 1940s through years of experimentation.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Granulation_(jewellery)" target="_blank">Wikipedia: Granulation</a>
+      <a href="https://en.wikipedia.org/wiki/Etruscan_civilization" target="_blank">Wikipedia: Etruscan Civilization</a>
+    </div>
+  </div>
+</section>
+
+<section id="enamel">
+  <h3 class="journal">Enamel</h3>
+  <p class="journal-text">"Like combining stained glass and jewellery." Starts as powdered glass, kilned (750–850°C) to make the colouring.</p>
+  <table class="journal-table">
+    <thead><tr><th>Style</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td class="hl"><span class="tt">Cloisonné<span class="ttp">From French "cloison" (partition). Thin wires soldered to base create cells filled with enamel. Each wire = colour boundary. Ancient technique — Byzantine, Egyptian, Chinese examples survive.</span></span></td><td>Thin wire walls separate the colours</td></tr>
+      <tr><td class="hl"><span class="tt">Champlevé<span class="ttp">French "raised field." Recessed pockets carved/cast into metal, filled with enamel. "Paint by numbers" without wire inlay.</span></span></td><td>"Paint by numbers" — recessed pockets, no wire</td></tr>
+      <tr><td class="hl"><span class="tt">Basse-taille<span class="ttp">French "low cut." Pattern engraved into metal BEFORE translucent enamel applied over it. Pattern shows through. Fabergé mastered this.</span></span></td><td>Pattern under the enamel</td></tr>
+      <tr><td class="hl"><span class="tt">Plique-à-jour<span class="ttp">French "letting in daylight." Open-backed cells with translucent enamel — no backing. Light shines through like stained glass. Extremely difficult. René Lalique was the greatest practitioner.</span></span></td><td>Open-backed, light shines through. Very stained glass. René Lalique!</td></tr>
+    </tbody>
+  </table>
+  <div class="tw-card">
+    <h4>Enamel — Further Context</h4>
+    <p class="tw-text">Enamel is essentially <strong>glass fused to metal</strong>. The base glass (flux) is mixed with metal oxides for colour: cobalt = blue, copper = green/turquoise, gold chloride = ruby red, iron = brown/black. Firing temperatures and kiln atmosphere affect the final hue. Enamel is brittle and can chip on impact — a key vulnerability for enamelled pieces.</p>
+    <p class="tw-text" style="margin-top:0.3rem;"><strong>René Lalique</strong> (1860–1945) revolutionized Art Nouveau jewellery by prioritizing enamel, glass, and horn over diamonds and platinum. His plique-à-jour work remains among the most technically accomplished ever produced. <strong>Peter Carl Fabergé</strong> (1846–1920) employed over 500 craftsmen and mastered <strong>guilloche enamel</strong> (engine-turned metal under translucent enamel) — over 140 distinct enamel colours.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Vitreous_enamel" target="_blank">Wikipedia: Vitreous Enamel</a>
+      <a href="https://en.wikipedia.org/wiki/Cloisonn%C3%A9" target="_blank">Wikipedia: Cloisonné</a>
+      <a href="https://en.wikipedia.org/wiki/Plique-%C3%A0-jour" target="_blank">Wikipedia: Plique-à-jour</a>
+      <a href="https://en.wikipedia.org/wiki/Ren%C3%A9_Lalique" target="_blank">Wikipedia: Lalique</a>
+      <a href="https://en.wikipedia.org/wiki/Peter_Carl_Faberg%C3%A9" target="_blank">Wikipedia: Fabergé</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 5. SETTINGS ═══════════════ -->
+<section id="settings">
+  <div class="journal-label">Day 2</div>
+  <h2 class="journal">Stone Settings</h2>
+  <p class="journal-text"><span class="ink-em">"Bring your setters donuts"</span> — they make a big difference and are sometimes under-appreciated.</p>
+
+  <h3 class="journal">Setting Styles</h3>
+  <p class="journal-text"><strong>Ring:</strong> Solitaire · <span class="tt">Halo<span class="ttp">Centre stone surrounded by smaller accent stones, creating illusion of larger stone. Hugely popular since ~2010.</span></span> · Three-Stone · <span class="tt">Cathedral<span class="ttp">Arched metal supports rise from shank like cathedral arches. Elevates and protects the stone.</span></span> · Cluster · <span class="tt">Eternity<span class="ttp">Band completely encircled with stones. Full eternity = all around. Very difficult to resize.</span></span> · Split Shank</p>
+  <p class="journal-text"><strong>Stone methods:</strong> Prong · Basket/Low-base · <span class="tt">Bead & Bright-cut<span class="ttp">Hand-setting: tiny beads raised from surface with a graver to hold stone. Bright-cut = polished angled cuts reflecting light. Excavative process.</span></span> · <span class="tt">Pavé/Micro-pavé<span class="ttp">Stones set close together, surface appears "paved." CAD vs. hand is immediately obvious: hand = excavative (peeling material), CAD = additive (prongs built up).</span></span> · <span class="tt">Channel<span class="ttp">Stones in a groove between two walls, no prongs. Nurses love them — no catching on gloves.</span></span> · <span class="tt">Bezel<span class="ttp">Metal rim encircling the stone. Very secure, low maintenance, protective.</span></span> · <span class="tt">Flush/Burnish<span class="ttp">Stone sits in drilled hole, surrounding metal pushed over girdle. Stone surface flush with metal. Very sleek.</span></span> · <span class="tt">Invisible<span class="ttp">Stones have grooves below girdle that slide onto metal framework. No metal visible from top. Originally Van Cleef & Arpels, 1933.</span></span> · Suspension</p>
+
+  <h3 class="journal">Prong Details</h3>
+  <ul class="journal-list">
+    <li>Styles: Round, Pointed/Claw, Split, Flat Tab, V-Prong, Shared</li>
+    <li>3-prong = sometimes called <span class="ink-em">"Martini"</span></li>
+    <li>Safety: prongs should go 30–40% up the crown</li>
+    <li><span class="tt">Basket<span class="ttp">Upper gallery + lower gallery connected by prongs. Provides structure. "Low-base" sits closer to finger.</span></span> = upper and lower gallery connected by prongs</li>
+    <li>He says "mehly" not "meyley" (melee)</li>
+  </ul>
+
+  <h3 class="journal">CAD Pavé vs. Hand Pavé</h3>
+  <p class="journal-text"><span class="ink-em">Should be immediately obvious:</span> Hand = excavative (peel material out, it becomes the prongs). CAD = additive (prongs are built-up material).</p>
+
+  <h3 class="journal">Tension & Suspension</h3>
+  <ul class="journal-list">
+    <li><span class="tt">Tension setting<span class="ttp">Stone held by spring tension of the band alone. Must be work-hardened, not cast. Patented gallium-platinum alloy by Steven Kretchmer — "kind of a mad scientist."</span></span>: Patented <span class="tt">gallium-platinum<span class="ttp">Gallium = easy to melt but creates super-hard alloys. Many competitors don't use Kretchmer's specific alloy, so their tension settings are weaker.</span></span> by Steven Kretchmer. Always work hardened, never cast</li>
+    <li>Suspension: bar underneath. More reliable. CAN use cast pieces</li>
+    <li><span class="tt">Cast-in-place<span class="ttp">Stones set in wax before metal pour. Only diamonds (and some sapphires/rubies) survive ~1,000°C+ molten metal.</span></span>: mostly only diamonds. "Great look for much less labour"</li>
+    <li><span class="tt">Phenomena cabochons<span class="ttp">Cat's eye or star stones — set so the phenomenon is visually centred, which may mean off-centre cab peak.</span></span>: set so phenomenon is visually up</li>
+    <li>Invisible setting: grooves below girdle. Maybe Cartier patented? Competitors reverse-engineered</li>
+  </ul>
+
+  <div class="tw-card">
+    <h4>Settings — Further Reference</h4>
+    <p class="tw-text">The <strong>invisible setting</strong> (serti invisible/Mystery Set) was actually patented by <strong>Van Cleef & Arpels</strong> in 1933 — not Cartier. The technique requires stones cut with precise grooves (typically 0.3mm deep) that slide onto a thin metal rail framework. Setting a single piece can take hundreds of hours. The original patent has expired, but VCA remains the acknowledged master.</p>
+    <p class="tw-text" style="margin-top:0.3rem;">Setting choice impacts insurance and maintenance: prong settings need inspection every 6–12 months (prong retipping is the most common repair). Bezel settings rarely need maintenance but make stones appear slightly smaller. Channel settings are lowest-maintenance for daily wear.</p>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Setting_(jewellery)" target="_blank">Wikipedia: Settings</a>
+      <a href="https://en.wikipedia.org/wiki/Pav%C3%A9" target="_blank">Wikipedia: Pavé</a>
+      <a href="https://en.wikipedia.org/wiki/Van_Cleef_%26_Arpels" target="_blank">Wikipedia: Van Cleef & Arpels</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 6. REPAIR ═══════════════ -->
+<section id="repair">
+  <div class="journal-label">Day 2</div>
+  <h2 class="journal">Repair & Restoration</h2>
+  <ul class="journal-list">
+    <li>Re-texturing, polishing, refurbishing</li>
+    <li>Replacing lost gemstones · Stone tightening</li>
+    <li><span class="tt">Sizing<span class="ttp">Ring larger: cut shank, add metal. Smaller: cut out section, solder closed. Rose gold = notoriously difficult (brittle). Eternity bands often can't be sized.</span></span> · <span class="tt">Re-tipping prongs<span class="ttp">Adding new metal to worn prong tips. Done with solder, laser, or full prong replacement. Most common maintenance for diamond rings.</span></span> · Replacing prongs</li>
+    <li>Soldering breaks</li>
+  </ul>
+
+  <p class="journal-text" style="margin-top:0.6rem;"><strong>Identifying repairs:</strong> colour mismatch at solder joints, different solder grades at different times, irregular prong heights, areas of different surface texture (new polish vs. aged patina).</p>
+  <p class="journal-text"><strong>Tennis bracelet trick:</strong> turn it upside down to see if it hangs with any kinks — each kink = a repair point. Then inspect that spot closely.</p>
+  <p class="journal-text"><strong>Faux antique:</strong> Look for 3D printing grow lines, modern milling marks, or CAD-precise symmetry on pieces styled to look vintage. "Looking at the lowground to see what tools were used and how."</p>
+
+  <div class="margin-note">NOTE: As GIA grads you get GIA library access — largest gem library in the world.</div>
+
+  <div class="tw-card">
+    <h4>Repair Red Flags — Forensic Checklist</h4>
+    <ul class="tw-list">
+      <li><strong>Solder colour mismatch</strong> — different karats of solder used at different times</li>
+      <li><strong>Excess solder blobs</strong> — especially in hard-to-reach areas</li>
+      <li><strong>Asymmetric prong heights</strong> — some retipped, some original</li>
+      <li><strong>Mismatched surface finish</strong> — newly polished area vs. aged patina</li>
+      <li><strong>Lead solder</strong> (grey, burnishes easily) — reduces value, difficult to remediate</li>
+      <li><strong>Laser weld spots</strong> — "roll of dimes" pattern under magnification</li>
+      <li><strong>Sizing evidence</strong> — visible join on shank interior, thickness variation</li>
+      <li><strong>Replaced stones</strong> — slight colour/cut differences from original set</li>
+    </ul>
+    <div class="tw-links">
+      <a href="https://en.wikipedia.org/wiki/Jewellery_maintenance" target="_blank">Wikipedia: Jewellery Care</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ═══════════════ 7. COMPARISON ═══════════════ -->
+<section id="compare">
+  <div class="journal-label">Quick Reference</div>
+  <h2 class="journal">Methods at a Glance</h2>
+
+  <div class="tw-card" style="overflow-x:auto;transform:rotate(0deg);">
+    <table class="tw-table">
+      <thead>
+        <tr><th></th><th>Casting</th><th>Hand Fab</th><th>Die Strike</th><th>Machined</th><th>Electroform</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="hl">Density</td><td>Lower</td><td>High</td><td>Highest</td><td>High</td><td>Low</td></tr>
+        <tr><td class="hl">Design Freedom</td><td>Very high</td><td>High</td><td>Limited</td><td>Limited</td><td>High (surface)</td></tr>
+        <tr><td class="hl">Unit Cost</td><td>Low–Med</td><td>High</td><td>Low at vol.</td><td>Low–Med</td><td>Medium</td></tr>
+        <tr><td class="hl">Durability</td><td>Good</td><td>Excellent</td><td>Excellent</td><td>Excellent</td><td>Poor</td></tr>
+        <tr><td class="hl">Porosity</td><td>High risk</td><td>None</td><td>None</td><td>None</td><td>None</td></tr>
+        <tr><td class="hl">Key Clue</td><td>Porosity, skin</td><td>Solder, saw marks</td><td>Shear lines</td><td>No solder</td><td>Lightweight</td></tr>
+        <tr><td class="hl">Era</td><td>6,000+ yrs</td><td>Oldest</td><td>1910s+</td><td>1990s+</td><td>19th c.+</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════ CLOSING ═══════════════ -->
+<section>
+  <h2 class="journal" style="text-align:center;">What Am I Looking At?</h2>
+  <p class="journal-text" style="text-align:center;max-width:580px;margin:0 auto;"><span class="ink-em">"Finding the backstory on every piece."</span> Look at a piece and read it — identify manufacturing, assess quality, understand the market, relay the story.</p>
+  <blockquote class="journal" style="text-align:center;border-left:none;margin-top:1rem;">"The front sells the piece, the back explains the piece."</blockquote>
+
+  <div class="tw-card" style="margin-top:1.5rem;">
+    <h4>Further Reading & Resources</h4>
+    <div class="tw-links" style="border-top:none;padding-top:0;">
+      <a href="https://www.langantiques.com/university/" target="_blank">Antique Jewelry University</a>
+      <a href="https://www.ganoksin.com/" target="_blank">Ganoksin Community</a>
+      <a href="https://www.gia.edu/" target="_blank">GIA</a>
+      <a href="https://www.gold.org/about-gold/about-gold-jewellery" target="_blank">World Gold Council</a>
+      <a href="https://en.wikipedia.org/wiki/Jewellery" target="_blank">Wikipedia: Jewellery</a>
+      <a href="https://en.wikipedia.org/wiki/Goldsmith" target="_blank">Wikipedia: Goldsmith</a>
+      <a href="https://www.thenaturalsapphirecompany.com/education/precious-metal-manufacture-techniques-styles/" target="_blank">Natural Sapphire Co.: Methods</a>
+      <a href="https://www.cooksongold.com/blog/" target="_blank">Cookson Gold Blog</a>
+      <a href="https://www.benchjeweler.com/" target="_blank">Bench Jeweler Magazine</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<a href="#" class="scroll-top" id="scrollTop">↑</a>
+<script>
+const b=document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{b.classList.toggle('visible',window.scrollY>400);});
+</script>
+</body>
+</html>
